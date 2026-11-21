@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\WorkshopController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [HomeController::class, 'index'])->name('home.index');
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+*/
 
-include('auth.php');
-include('web/sections.php');
-include('web/users.php');
-include('web/roles.php');
+Route::get('/', [WorkshopController::class, 'index'])->name('workshop.index');

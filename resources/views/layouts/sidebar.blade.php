@@ -3,40 +3,90 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
         <li class="nav-item">
-            <a class="nav-link " href="{{ route('home.index') }}">
+            <a class="nav-link {{ request()->routeIs('workshop.index') ? '' : 'collapsed' }}" href="{{ route('workshop.index') }}">
                 <i class="bi bi-grid"></i>
-                <span>Dashboard</span>
+                <span>Inicio - Taller</span>
             </a>
         </li>
 
-        @if (\App\Helpers\RoleHelper::isAuthorized('sections.show'))
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="{{ route('sections.index') }}">
-                    <i class="bi bi-block"></i>
-                    <span>Secciones</span>
-                </a>
-            </li>
-        @endif
+        <li class="nav-heading">Ejercicios</li>
 
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#">
+                <i class="bi bi-check2-square"></i>
+                <span>1. Lista de Tareas</span>
+            </a>
+        </li>
 
-        @if (\App\Helpers\RoleHelper::isAuthorized('users.show'))
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="{{ route('users.index') }}">
-                    <i class="bi bi-person"></i>
-                    <span>Usuarios</span>
-                </a>
-            </li>
-        @endif
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#">
+                <i class="bi bi-calculator"></i>
+                <span>2. Calc. Propinas</span>
+            </a>
+        </li>
 
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#">
+                <i class="bi bi-key"></i>
+                <span>3. Contraseñas</span>
+            </a>
+        </li>
 
-        @if (\App\Helpers\RoleHelper::isAuthorized('roles.show'))
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="{{ route('roles.index') }}">
-                    <i class="bi bi-lock"></i>
-                    <span>Roles</span>
-                </a>
-            </li>
-        @endif
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#">
+                <i class="bi bi-cash-stack"></i>
+                <span>4. Gestor de Gastos</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#">
+                <i class="bi bi-calendar-check"></i>
+                <span>5. Reservas</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#">
+                <i class="bi bi-journal-text"></i>
+                <span>6. Gestor de Notas</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#">
+                <i class="bi bi-calendar-event"></i>
+                <span>7. Eventos</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#">
+                <i class="bi bi-egg-fried"></i>
+                <span>8. Recetas</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#">
+                <i class="bi bi-controller"></i>
+                <span>9. Juego de Memoria</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#">
+                <i class="bi bi-card-checklist"></i>
+                <span>10. Encuestas</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#">
+                <i class="bi bi-stopwatch"></i>
+                <span>11. Cronómetro</span>
+            </a>
+        </li>
 
     </ul>
 
