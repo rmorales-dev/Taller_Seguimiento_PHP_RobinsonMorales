@@ -59,6 +59,8 @@
                                 <a href="{{ route('workshop.exercise6') }}" class="text-primary">Ejercicio {{ $item['id'] }} &raquo;</a>
                             @elseif ($item['id'] === 7)
                                 <a href="{{ route('workshop.exercise7') }}" class="text-primary">Ejercicio {{ $item['id'] }} &raquo;</a>
+                            @elseif ($item['id'] === 8)
+                                <a href="{{ route('workshop.exercise8') }}" class="text-primary">Ejercicio {{ $item['id'] }} &raquo;</a>
                             @else
                                 Ejercicio {{ $item['id'] }}
                             @endif
@@ -83,6 +85,8 @@
                                         <a href="{{ route('workshop.exercise6') }}" class="text-dark">{{ $item['title'] }}</a>
                                     @elseif ($item['id'] === 7)
                                         <a href="{{ route('workshop.exercise7') }}" class="text-dark">{{ $item['title'] }}</a>
+                                    @elseif ($item['id'] === 8)
+                                        <a href="{{ route('workshop.exercise8') }}" class="text-dark">{{ $item['title'] }}</a>
                                     @else
                                         {{ $item['title'] }}
                                     @endif

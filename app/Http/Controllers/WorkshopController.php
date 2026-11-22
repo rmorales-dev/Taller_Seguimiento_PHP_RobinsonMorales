@@ -436,4 +436,74 @@ class WorkshopController extends Controller
             'events' => $events,
         ]);
     }
+
+    /**
+     * Ejercicio 8: Plataforma de Recetas
+     * Permite guardar, buscar y filtrar recetas de cocina por tipo e ingredientes.
+     */
+    public function exercise8(Request $request)
+    {
+        $recipes = $request->session()->get('recipes_list', []);
+
+        if ($request->isMethod('post')) {
+            $action = $request->input('action');
+
+            if ($action === 'add') {
+                $title = trim($request->input('title'));
+                $mealType = $request->input('meal_type', 'Almuerzo');
+                $ingredients = trim($request->input('ingredients'));
+                $instructions = trim($request->input('instructions'));
+
+                if (!empty($title) && !empty($ingredients)) {
+                    $newRecipe = [
+                        'id' => uniqid(),
+                        'title' => $title,
+                        'meal_type' => $mealType,
+                        'ingredients' => $ingredients,
+                        'instructions' => $instructions,
+                    ];
+
+                    $recipes[] = $newRecipe;
+                    $request->session()->put('recipes_list', $recipes);
+                }
+
+                return redirect()->route('workshop.exercise8');
+            }
+
+            if ($action === 'delete') {
+                $recipeId = $request->input('recipe_id');
+
+                $recipes = array_filter($recipes, function ($item) use ($recipeId) {
+                    return $item['id'] !== $recipeId;
+                });
+
+                $request->session()->put('recipes_list', array_values($recipes));
+                return redirect()->route('workshop.exercise8');
+            }
+        }
+
+        // Filtro por tipo de comida y búsqueda por ingredientes/título
+        $search = trim($request->input('search', ''));
+        $filterType = $request->input('filter_type', 'all');
+
+        $filteredRecipes = $recipes;
+
+        if (!empty($search)) {
+            $filteredRecipes = array_filter($filteredRecipes, function ($r) use ($search) {
+                return stripos($r['title'], $search) !== false || stripos($r['ingredients'], $search) !== false;
+            });
+        }
+
+        if ($filterType !== 'all' && !empty($filterType)) {
+            $filteredRecipes = array_filter($filteredRecipes, function ($r) use ($filterType) {
+                return $r['meal_type'] === $filterType;
+            });
+        }
+
+        return view('workshop.exercise8', [
+            'recipes' => array_values($filteredRecipes),
+            'search' => $search,
+            'filterType' => $filterType,
+        ]);
+    }
 }
