@@ -16,3 +16,6 @@ Route::match(['get', 'post'], '/ejercicio-1', [WorkshopController::class, 'exerc
 
 // Ejercicio 2: Calculadora de Propinas
 Route::match(['get', 'post'], '/ejercicio-2', [WorkshopController::class, 'exercise2'])->name('workshop.exercise2');
+
+// Ejercicio 3: Generador de Contraseñas
+Route::match(['get', 'post'], '/ejercicio-3', [WorkshopController::class, 'exercise3'])->name('workshop.exercise3');

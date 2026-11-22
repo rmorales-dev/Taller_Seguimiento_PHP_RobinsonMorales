@@ -26,7 +26,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#">
+            <a class="nav-link {{ request()->routeIs('workshop.exercise3') ? '' : 'collapsed' }}" href="{{ route('workshop.exercise3') }}">
                 <i class="bi bi-key"></i>
                 <span>3. Contraseñas</span>
             </a>

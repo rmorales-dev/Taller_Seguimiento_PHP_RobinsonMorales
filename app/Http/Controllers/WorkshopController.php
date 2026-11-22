@@ -120,4 +120,70 @@ class WorkshopController extends Controller
             'calculated' => $calculated,
         ]);
     }
+
+    /**
+     * Ejercicio 3: Generador de Contraseñas Seguras
+     * Genera una contraseña aleatoria permitiendo ajustar longitud y tipos de caracteres.
+     */
+    public function exercise3(Request $request)
+    {
+        $passwordLength = (int) $request->input('password_length', 12);
+        $includeUppercase = $request->boolean('include_uppercase', true);
+        $includeLowercase = $request->boolean('include_lowercase', true);
+        $includeNumbers = $request->boolean('include_numbers', true);
+        $includeSymbols = $request->boolean('include_symbols', false);
+
+        $generatedPassword = null;
+        $errorMessage = null;
+
+        if ($request->isMethod('post')) {
+            $charPool = '';
+
+            if ($includeLowercase) {
+                $charPool .= 'abcdefghijklmnopqrstuvwxyz';
+            }
+            if ($includeUppercase) {
+                $charPool .= 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            }
+            if ($includeNumbers) {
+                $charPool .= '0123456789';
+            }
+            if ($includeSymbols) {
+                $charPool .= '!@#$%^&*()_+-=[]{}|;:,.<>?';
+            }
+
+            // Validar que se haya seleccionado al menos un tipo de caracter
+            if (empty($charPool)) {
+                $errorMessage = 'Debes seleccionar al menos un tipo de carácter.';
+            } else {
+                // Ajustar longitud mínima y máxima razonable
+                if ($passwordLength < 4) {
+                    $passwordLength = 4;
+                }
+                if ($passwordLength > 64) {
+                    $passwordLength = 64;
+                }
+
+                $passwordResult = '';
+                $poolLength = strlen($charPool);
+
+                for ($i = 0; $i < $passwordLength; $i++) {
+                    $randomIndex = random_int(0, $poolLength - 1);
+                    $passwordResult .= $charPool[$randomIndex];
+                }
+
+                $generatedPassword = $passwordResult;
+            }
+        }
+
+        return view('workshop.exercise3', [
+            'generatedPassword' => $generatedPassword,
+            'passwordLength' => $passwordLength,
+            'includeUppercase' => $includeUppercase,
+            'includeLowercase' => $includeLowercase,
+            'includeNumbers' => $includeNumbers,
+            'includeSymbols' => $includeSymbols,
+            'errorMessage' => $errorMessage,
+        ]);
+    }
 }
