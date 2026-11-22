@@ -248,4 +248,70 @@ class WorkshopController extends Controller
             'categoryTotals' => $categoryTotals,
         ]);
     }
+
+    /**
+     * Ejercicio 5: Sistema de Reservas
+     * Permite reservar citas o servicios validando disponibilidad de horarios.
+     */
+    public function exercise5(Request $request)
+    {
+        $reservations = $request->session()->get('reservations_list', []);
+        $availableHours = ['08:00', '09:00', '10:00', '11:00', '14:00', '15:00', '16:00', '17:00'];
+        $message = null;
+        $error = null;
+
+        if ($request->isMethod('post')) {
+            $action = $request->input('action');
+
+            if ($action === 'book') {
+                $clientName = trim($request->input('client_name'));
+                $service = $request->input('service');
+                $date = $request->input('date');
+                $time = $request->input('time');
+
+                // Validar si ya existe reserva para la misma fecha y hora
+                $isBooked = false;
+                foreach ($reservations as $res) {
+                    if ($res['date'] === $date && $res['time'] === $time) {
+                        $isBooked = true;
+                        break;
+                    }
+                }
+
+                if ($isBooked) {
+                    $error = "El horario $time para la fecha $date ya se encuentra reservado.";
+                } elseif (!empty($clientName) && !empty($date) && !empty($time)) {
+                    $newReservation = [
+                        'id' => uniqid(),
+                        'client_name' => $clientName,
+                        'service' => $service,
+                        'date' => $date,
+                        'time' => $time,
+                    ];
+
+                    $reservations[] = $newReservation;
+                    $request->session()->put('reservations_list', $reservations);
+                    $message = "¡Reserva confirmada con éxito para $clientName!";
+                }
+            }
+
+            if ($action === 'cancel') {
+                $reservationId = $request->input('reservation_id');
+
+                $reservations = array_filter($reservations, function ($res) use ($reservationId) {
+                    return $res['id'] !== $reservationId;
+                });
+
+                $request->session()->put('reservations_list', array_values($reservations));
+                $message = "Reserva cancelada correctamente.";
+            }
+        }
+
+        return view('workshop.exercise5', [
+            'reservations' => $reservations,
+            'availableHours' => $availableHours,
+            'message' => $message,
+            'error' => $error,
+        ]);
+    }
 }
