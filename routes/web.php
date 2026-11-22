@@ -25,3 +25,6 @@ Route::match(['get', 'post'], '/ejercicio-4', [WorkshopController::class, 'exerc
 
 // Ejercicio 5: Sistema de Reservas
 Route::match(['get', 'post'], '/ejercicio-5', [WorkshopController::class, 'exercise5'])->name('workshop.exercise5');
+
+// Ejercicio 6: Gestor de Notas
+Route::match(['get', 'post'], '/ejercicio-6', [WorkshopController::class, 'exercise6'])->name('workshop.exercise6');
