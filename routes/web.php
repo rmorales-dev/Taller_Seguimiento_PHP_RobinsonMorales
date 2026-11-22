@@ -31,3 +31,6 @@ Route::match(['get', 'post'], '/ejercicio-6', [WorkshopController::class, 'exerc
 
 // Ejercicio 7: Calendario de Eventos
 Route::match(['get', 'post'], '/ejercicio-7', [WorkshopController::class, 'exercise7'])->name('workshop.exercise7');
+
+// Ejercicio 8: Plataforma de Recetas
+Route::match(['get', 'post'], '/ejercicio-8', [WorkshopController::class, 'exercise8'])->name('workshop.exercise8');

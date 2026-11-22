@@ -61,7 +61,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#">
+            <a class="nav-link {{ request()->routeIs('workshop.exercise8') ? '' : 'collapsed' }}" href="{{ route('workshop.exercise8') }}">
                 <i class="bi bi-egg-fried"></i>
                 <span>8. Recetas</span>
             </a>
