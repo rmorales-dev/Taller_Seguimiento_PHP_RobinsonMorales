@@ -47,7 +47,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#">
+            <a class="nav-link {{ request()->routeIs('workshop.exercise6') ? '' : 'collapsed' }}" href="{{ route('workshop.exercise6') }}">
                 <i class="bi bi-journal-text"></i>
                 <span>6. Gestor de Notas</span>
             </a>

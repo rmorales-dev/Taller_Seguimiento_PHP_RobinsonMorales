@@ -314,4 +314,73 @@ class WorkshopController extends Controller
             'error' => $error,
         ]);
     }
+
+    /**
+     * Ejercicio 6: Gestor de Notas
+     * Permite escribir y guardar notas, organizarlas en categorías y buscarlas.
+     */
+    public function exercise6(Request $request)
+    {
+        $notes = $request->session()->get('notes_list', []);
+
+        if ($request->isMethod('post')) {
+            $action = $request->input('action');
+
+            if ($action === 'add') {
+                $title = trim($request->input('title'));
+                $content = trim($request->input('content'));
+                $category = $request->input('category', 'General');
+
+                if (!empty($title) && !empty($content)) {
+                    $newNote = [
+                        'id' => uniqid(),
+                        'title' => $title,
+                        'content' => $content,
+                        'category' => $category,
+                        'created_at' => date('d/m/Y H:i'),
+                    ];
+
+                    $notes[] = $newNote;
+                    $request->session()->put('notes_list', $notes);
+                }
+
+                return redirect()->route('workshop.exercise6');
+            }
+
+            if ($action === 'delete') {
+                $noteId = $request->input('note_id');
+
+                $notes = array_filter($notes, function ($note) use ($noteId) {
+                    return $note['id'] !== $noteId;
+                });
+
+                $request->session()->put('notes_list', array_values($notes));
+                return redirect()->route('workshop.exercise6');
+            }
+        }
+
+        // Búsqueda y filtrado sencillo
+        $searchQuery = trim($request->input('search', ''));
+        $filteredCategory = $request->input('filter_category', 'all');
+
+        $filteredNotes = $notes;
+
+        if (!empty($searchQuery)) {
+            $filteredNotes = array_filter($filteredNotes, function ($note) use ($searchQuery) {
+                return stripos($note['title'], $searchQuery) !== false || stripos($note['content'], $searchQuery) !== false;
+            });
+        }
+
+        if ($filteredCategory !== 'all' && !empty($filteredCategory)) {
+            $filteredNotes = array_filter($filteredNotes, function ($note) use ($filteredCategory) {
+                return $note['category'] === $filteredCategory;
+            });
+        }
+
+        return view('workshop.exercise6', [
+            'notes' => array_values($filteredNotes),
+            'searchQuery' => $searchQuery,
+            'filteredCategory' => $filteredCategory,
+        ]);
+    }
 }
