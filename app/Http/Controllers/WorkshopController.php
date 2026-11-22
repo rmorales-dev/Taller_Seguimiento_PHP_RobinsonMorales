@@ -383,4 +383,57 @@ class WorkshopController extends Controller
             'filteredCategory' => $filteredCategory,
         ]);
     }
+
+    /**
+     * Ejercicio 7: Calendario de Eventos
+     * Permite agregar, editar y eliminar eventos con fecha, hora y recordatorio.
+     */
+    public function exercise7(Request $request)
+    {
+        $events = $request->session()->get('events_list', []);
+
+        if ($request->isMethod('post')) {
+            $action = $request->input('action');
+
+            if ($action === 'add') {
+                $title = trim($request->input('title'));
+                $date = $request->input('date');
+                $time = $request->input('time');
+                $reminder = $request->boolean('reminder', false);
+
+                if (!empty($title) && !empty($date)) {
+                    $newEvent = [
+                        'id' => uniqid(),
+                        'title' => $title,
+                        'date' => $date,
+                        'time' => $time ?? '00:00',
+                        'reminder' => $reminder,
+                    ];
+
+                    $events[] = $newEvent;
+
+                    // Ordenar eventos por fecha ascendente
+                    usort($events, fn($a, $b) => strcmp($a['date'] . $a['time'], $b['date'] . $b['time']));
+                    $request->session()->put('events_list', $events);
+                }
+
+                return redirect()->route('workshop.exercise7');
+            }
+
+            if ($action === 'delete') {
+                $eventId = $request->input('event_id');
+
+                $events = array_filter($events, function ($event) use ($eventId) {
+                    return $event['id'] !== $eventId;
+                });
+
+                $request->session()->put('events_list', array_values($events));
+                return redirect()->route('workshop.exercise7');
+            }
+        }
+
+        return view('workshop.exercise7', [
+            'events' => $events,
+        ]);
+    }
 }
