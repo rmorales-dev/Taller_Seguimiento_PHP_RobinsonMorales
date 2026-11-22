@@ -44,13 +44,25 @@
             <div class="col-xxl-4 col-md-6">
                 <div class="card info-card">
                     <div class="card-body">
-                        <h5 class="card-title">Ejercicio {{ $item['id'] }}</h5>
+                        <h5 class="card-title">
+                            @if ($item['id'] === 1)
+                                <a href="{{ route('workshop.exercise1') }}" class="text-primary">Ejercicio {{ $item['id'] }} &raquo;</a>
+                            @else
+                                Ejercicio {{ $item['id'] }}
+                            @endif
+                        </h5>
                         <div class="d-flex align-items-center">
                             <div class="card-icon rounded-circle d-flex align-items-center justify-content-center bg-{{ $item['color'] }}-light text-{{ $item['color'] }}">
                                 <i class="bi {{ $item['icon'] }}"></i>
                             </div>
                             <div class="ps-3">
-                                <h6>{{ $item['title'] }}</h6>
+                                <h6>
+                                    @if ($item['id'] === 1)
+                                        <a href="{{ route('workshop.exercise1') }}" class="text-dark">{{ $item['title'] }}</a>
+                                    @else
+                                        {{ $item['title'] }}
+                                    @endif
+                                </h6>
                                 <span class="text-muted small pt-2">{{ $item['desc'] }}</span>
                             </div>
                         </div>

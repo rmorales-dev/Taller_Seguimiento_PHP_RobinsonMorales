@@ -12,7 +12,7 @@
         <li class="nav-heading">Ejercicios</li>
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#">
+            <a class="nav-link {{ request()->routeIs('workshop.exercise1') ? '' : 'collapsed' }}" href="{{ route('workshop.exercise1') }}">
                 <i class="bi bi-check2-square"></i>
                 <span>1. Lista de Tareas</span>
             </a>
