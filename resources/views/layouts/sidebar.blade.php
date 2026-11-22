@@ -19,7 +19,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#">
+            <a class="nav-link {{ request()->routeIs('workshop.exercise2') ? '' : 'collapsed' }}" href="{{ route('workshop.exercise2') }}">
                 <i class="bi bi-calculator"></i>
                 <span>2. Calc. Propinas</span>
             </a>

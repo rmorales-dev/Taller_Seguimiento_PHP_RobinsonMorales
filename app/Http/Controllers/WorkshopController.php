@@ -78,4 +78,46 @@ class WorkshopController extends Controller
             'tasks' => $tasks,
         ]);
     }
+
+    /**
+     * Ejercicio 2: Calculadora de Propinas
+     * Calcula la propina y el total basado en el monto y el porcentaje seleccionado.
+     */
+    public function exercise2(Request $request)
+    {
+        $billAmount = null;
+        $tipPercentage = 10;
+        $customPercentage = null;
+        $tipAmount = 0;
+        $totalAmount = 0;
+        $calculated = false;
+
+        if ($request->isMethod('post')) {
+            $billAmount = (float) $request->input('bill_amount', 0);
+            $selectedTip = $request->input('tip_percentage', '10');
+            $customPercentage = $request->input('custom_percentage');
+
+            // Determinar si eligió porcentaje predefinido o personalizado
+            if ($selectedTip === 'custom' && is_numeric($customPercentage)) {
+                $tipPercentage = (float) $customPercentage;
+            } else {
+                $tipPercentage = (float) $selectedTip;
+            }
+
+            if ($billAmount > 0 && $tipPercentage >= 0) {
+                $tipAmount = ($billAmount * $tipPercentage) / 100;
+                $totalAmount = $billAmount + $tipAmount;
+                $calculated = true;
+            }
+        }
+
+        return view('workshop.exercise2', [
+            'billAmount' => $billAmount,
+            'tipPercentage' => $tipPercentage,
+            'customPercentage' => $customPercentage,
+            'tipAmount' => $tipAmount,
+            'totalAmount' => $totalAmount,
+            'calculated' => $calculated,
+        ]);
+    }
 }
