@@ -26,14 +26,14 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#">
+            <a class="nav-link {{ request()->routeIs('workshop.exercise3') ? '' : 'collapsed' }}" href="{{ route('workshop.exercise3') }}">
                 <i class="bi bi-key"></i>
                 <span>3. Contraseñas</span>
             </a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#">
+            <a class="nav-link {{ request()->routeIs('workshop.exercise4') ? '' : 'collapsed' }}" href="{{ route('workshop.exercise4') }}">
                 <i class="bi bi-cash-stack"></i>
                 <span>4. Gestor de Gastos</span>
             </a>
