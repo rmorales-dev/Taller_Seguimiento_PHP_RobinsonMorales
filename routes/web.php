@@ -19,3 +19,6 @@ Route::match(['get', 'post'], '/ejercicio-2', [WorkshopController::class, 'exerc
 
 // Ejercicio 3: Generador de Contraseñas
 Route::match(['get', 'post'], '/ejercicio-3', [WorkshopController::class, 'exercise3'])->name('workshop.exercise3');
+
+// Ejercicio 4: Gestor de Gastos
+Route::match(['get', 'post'], '/ejercicio-4', [WorkshopController::class, 'exercise4'])->name('workshop.exercise4');

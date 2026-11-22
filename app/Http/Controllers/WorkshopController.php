@@ -186,4 +186,66 @@ class WorkshopController extends Controller
             'errorMessage' => $errorMessage,
         ]);
     }
+
+    /**
+     * Ejercicio 4: Gestor de Gastos
+     * Permite registrar gastos diarios, categorizarlos y ver un resumen mensual.
+     */
+    public function exercise4(Request $request)
+    {
+        $expenses = $request->session()->get('expenses_list', []);
+
+        if ($request->isMethod('post')) {
+            $action = $request->input('action');
+
+            if ($action === 'add') {
+                $description = trim($request->input('description'));
+                $amount = (float) $request->input('amount', 0);
+                $category = $request->input('category', 'Varios');
+                $date = $request->input('expense_date', date('Y-m-d'));
+
+                if (!empty($description) && $amount > 0) {
+                    $newExpense = [
+                        'id' => uniqid(),
+                        'description' => $description,
+                        'amount' => $amount,
+                        'category' => $category,
+                        'date' => $date,
+                    ];
+
+                    $expenses[] = $newExpense;
+                    $request->session()->put('expenses_list', $expenses);
+                }
+
+                return redirect()->route('workshop.exercise4');
+            }
+
+            if ($action === 'delete') {
+                $expenseId = $request->input('expense_id');
+
+                $expenses = array_filter($expenses, function ($item) use ($expenseId) {
+                    return $item['id'] !== $expenseId;
+                });
+
+                $request->session()->put('expenses_list', array_values($expenses));
+                return redirect()->route('workshop.exercise4');
+            }
+        }
+
+        // Calcular totales generales y por categoría
+        $totalSpent = 0;
+        $categoryTotals = [];
+
+        foreach ($expenses as $item) {
+            $totalSpent += $item['amount'];
+            $cat = $item['category'];
+            $categoryTotals[$cat] = ($categoryTotals[$cat] ?? 0) + $item['amount'];
+        }
+
+        return view('workshop.exercise4', [
+            'expenses' => $expenses,
+            'totalSpent' => $totalSpent,
+            'categoryTotals' => $categoryTotals,
+        ]);
+    }
 }

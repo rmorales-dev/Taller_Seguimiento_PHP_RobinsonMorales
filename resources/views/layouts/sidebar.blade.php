@@ -33,7 +33,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#">
+            <a class="nav-link {{ request()->routeIs('workshop.exercise4') ? '' : 'collapsed' }}" href="{{ route('workshop.exercise4') }}">
                 <i class="bi bi-cash-stack"></i>
                 <span>4. Gestor de Gastos</span>
             </a>
