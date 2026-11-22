@@ -54,7 +54,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#">
+            <a class="nav-link {{ request()->routeIs('workshop.exercise7') ? '' : 'collapsed' }}" href="{{ route('workshop.exercise7') }}">
                 <i class="bi bi-calendar-event"></i>
                 <span>7. Eventos</span>
             </a>
