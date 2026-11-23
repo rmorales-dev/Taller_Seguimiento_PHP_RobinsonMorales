@@ -506,4 +506,13 @@ class WorkshopController extends Controller
             'filterType' => $filterType,
         ]);
     }
+
+    /**
+     * Ejercicio 11: Cronómetro Online
+     * Funciona como un cronómetro web con inicio, pausa, reinicio y registro de vueltas.
+     */
+    public function exercise11(Request $request)
+    {
+        return view('workshop.exercise11');
+    }
 }
