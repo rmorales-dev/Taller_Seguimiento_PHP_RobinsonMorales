@@ -68,7 +68,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#">
+            <a class="nav-link {{ request()->routeIs('workshop.exercise9') ? '' : 'collapsed' }}" href="{{ route('workshop.exercise9') }}">
                 <i class="bi bi-controller"></i>
                 <span>9. Juego de Memoria</span>
             </a>

@@ -508,6 +508,39 @@ class WorkshopController extends Controller
     }
 
     /**
+     * Ejercicio 9: Juego de Memoria
+     * Juego clásico de memoria con niveles de dificultad (Fácil: 4 parejas, Normal: 6 parejas, Difícil: 8 parejas).
+     */
+    public function exercise9(Request $request)
+    {
+        $difficulty = $request->input('difficulty', 'easy');
+        $pairCounts = [
+            'easy' => 4,    // 8 cartas
+            'normal' => 6,  // 12 cartas
+            'hard' => 8,    // 16 cartas
+        ];
+
+        $pairs = $pairCounts[$difficulty] ?? 4;
+        $icons = ['bi-star-fill', 'bi-heart-fill', 'bi-gem', 'bi-lightning-fill', 'bi-moon-stars-fill', 'bi-music-note-beamed', 'bi-trophy-fill', 'bi-fire'];
+
+        $selectedIcons = array_slice($icons, 0, $pairs);
+        $cards = [];
+
+        foreach ($selectedIcons as $index => $icon) {
+            $cards[] = ['id' => $index . '-a', 'icon' => $icon];
+            $cards[] = ['id' => $index . '-b', 'icon' => $icon];
+        }
+
+        shuffle($cards);
+
+        return view('workshop.exercise9', [
+            'cards' => $cards,
+            'difficulty' => $difficulty,
+            'totalPairs' => $pairs,
+        ]);
+    }
+
+    /**
      * Ejercicio 11: Cronómetro Online
      * Funciona como un cronómetro web con inicio, pausa, reinicio y registro de vueltas.
      */
