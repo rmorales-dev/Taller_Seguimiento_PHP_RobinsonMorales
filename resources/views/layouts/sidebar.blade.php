@@ -82,7 +82,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#">
+            <a class="nav-link {{ request()->routeIs('workshop.exercise11') ? '' : 'collapsed' }}" href="{{ route('workshop.exercise11') }}">
                 <i class="bi bi-stopwatch"></i>
                 <span>11. Cronómetro</span>
             </a>
