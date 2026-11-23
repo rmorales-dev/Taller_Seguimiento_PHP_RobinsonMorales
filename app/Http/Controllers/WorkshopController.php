@@ -541,6 +541,107 @@ class WorkshopController extends Controller
     }
 
     /**
+     * Ejercicio 10: Plataforma de Encuestas
+     * Permite crear encuestas, responderlas y ver resultados con barras de informe visual.
+     */
+    public function exercise10(Request $request)
+    {
+        $surveys = $request->session()->get('surveys_list', null);
+
+        // Si la sesión está vacía, inicializar con una encuesta por defecto
+        if ($surveys === null) {
+            $surveys = [
+                [
+                    'id' => 'survey_1',
+                    'question' => '¿Cuál es tu lenguaje de programación favorito para la Web?',
+                    'options' => [
+                        ['id' => 'opt_1', 'text' => 'PHP (Laravel)', 'votes' => 12],
+                        ['id' => 'opt_2', 'text' => 'JavaScript / Node.js', 'votes' => 8],
+                        ['id' => 'opt_3', 'text' => 'Python', 'votes' => 5],
+                        ['id' => 'opt_4', 'text' => 'Java', 'votes' => 3],
+                    ],
+                ]
+            ];
+            $request->session()->put('surveys_list', $surveys);
+        }
+
+        if ($request->isMethod('post')) {
+            $action = $request->input('action');
+
+            // 1. Votar en una encuesta
+            if ($action === 'vote') {
+                $surveyId = $request->input('survey_id');
+                $selectedOptionId = $request->input('option_id');
+
+                foreach ($surveys as &$survey) {
+                    if ($survey['id'] === $surveyId) {
+                        foreach ($survey['options'] as &$option) {
+                            if ($option['id'] === $selectedOptionId) {
+                                $option['votes']++;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                $request->session()->put('surveys_list', $surveys);
+                return redirect()->route('workshop.exercise10');
+            }
+
+            // 2. Crear nueva encuesta
+            if ($action === 'create') {
+                $question = trim($request->input('question'));
+                $rawOptions = trim($request->input('options_text'));
+
+                if (!empty($question) && !empty($rawOptions)) {
+                    $lines = explode("\n", str_replace("\r", "", $rawOptions));
+                    $options = [];
+
+                    foreach ($lines as $index => $line) {
+                        $trimmed = trim($line);
+                        if (!empty($trimmed)) {
+                            $options[] = [
+                                'id' => 'opt_' . ($index + 1),
+                                'text' => $trimmed,
+                                'votes' => 0,
+                            ];
+                        }
+                    }
+
+                    if (count($options) >= 2) {
+                        $newSurvey = [
+                            'id' => uniqid('survey_'),
+                            'question' => $question,
+                            'options' => $options,
+                        ];
+
+                        $surveys[] = $newSurvey;
+                        $request->session()->put('surveys_list', $surveys);
+                    }
+                }
+
+                return redirect()->route('workshop.exercise10');
+            }
+
+            // 3. Eliminar encuesta
+            if ($action === 'delete') {
+                $surveyId = $request->input('survey_id');
+
+                $surveys = array_filter($surveys, function ($s) use ($surveyId) {
+                    return $s['id'] !== $surveyId;
+                });
+
+                $request->session()->put('surveys_list', array_values($surveys));
+                return redirect()->route('workshop.exercise10');
+            }
+        }
+
+        return view('workshop.exercise10', [
+            'surveys' => $surveys,
+        ]);
+    }
+
+    /**
      * Ejercicio 11: Cronómetro Online
      * Funciona como un cronómetro web con inicio, pausa, reinicio y registro de vueltas.
      */
