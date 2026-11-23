@@ -75,7 +75,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#">
+            <a class="nav-link {{ request()->routeIs('workshop.exercise10') ? '' : 'collapsed' }}" href="{{ route('workshop.exercise10') }}">
                 <i class="bi bi-card-checklist"></i>
                 <span>10. Encuestas</span>
             </a>
